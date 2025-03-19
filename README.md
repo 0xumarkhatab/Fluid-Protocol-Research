@@ -1,4 +1,5 @@
 # Instadapp Fluid (FLUID) Research
+![image](https://github.com/user-attachments/assets/4faeec72-fb78-4a35-a091-4a6163135930)
 
 ## 1. Introduction  
 Instadapp Fluid (FLUID) is a suite of smart contracts designed to streamline advanced DeFi operations within the Instadapp ecosystem. By unifying lending, vault management, and decentralized trading under a single liquidity layer, Fluid optimizes capital usage, reduces transaction costs, and enhances overall efficiency.
