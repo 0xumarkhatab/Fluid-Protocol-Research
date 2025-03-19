@@ -11,7 +11,7 @@ Features include:
 
 Advantages of Fluid Protocol
 
-	Interest- free Liquidity
+	Interest- free Liquidity ( no fees on borrows  or recurring fees )
 
 	Fixed Minimum Collateral Ratio (135%)
 
@@ -51,6 +51,14 @@ The Vault protocol is targeted towards borrowers and offers a range of benefits 
 
 
 No Fees for using fluid as of now . q:how it generates revenue then ? sustainable ? what if company runs out of funds to still keep building
+
+# Stablecoin 
+USDF , redeemable by only one method . It picks collaterals from debt positions that are near at minimum CR which is 135%. Even if your position's Collateral ratio is above 135% , some of the collateral is taken but the debt is reduced accordingly too ( q: but that might be quite un-intuitive , you are not undercollaterized but still you will lose your collateral except debt will be reduced too so not a net loss but seems a design issue in my opinion.)
+
+Unlike other multi-collateral Liquity-based protocols, Fluid Protocol does not allow redeemers to choose a particular collateral. Instead, redeemers are distributed a pro-rata share of their collateral types. The lowest debt positions from each collateral type will be chosen during redemption. 
+
+For example: Fluid Protocol consists of 60% collateral units with an oracle market price of $2, and 40% of Liquid Staked collateral units with a market price of $1.8. A USDF holder who redeems 600 USDF will receive 180 collateral units(60% * 600 / 2) +  133.33 Liquid Staked collateral units (40% * 600 / 1.8) minus the redemption fee.
+
 
 
 
