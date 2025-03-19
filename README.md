@@ -112,10 +112,15 @@ Fluid aspires to build a sustainable, interoperable liquidity infrastructure tha
   The integrated DEX allows efficient trading and fee generation within the same ecosystem.
 
 ### Cons
-- **Interdependency Risk:**  
-  Reliance on multiple interconnected modules means a failure in one component could affect the entire system.
+- **Limited Cross-Chain Fragmentation Solution**  
+  Although Fluid aims to address chain fragmentation by unifying liquidity, its current implementation is limited to EVM-compatible networks—specifically Ethereum,
+  Arbitrum, Base, and Polygon. This focus means that while Fluid streamlines operations within the EVM ecosystem, it doesn't fully resolve fragmentation across non-EVM
+  chains. Consequently, users and assets on other blockchains remain excluded, limiting overall interoperability and network diversity.
 - **High LTV Risks:**  
   While high LTV ratios provide borrowing capacity, they also increase exposure to market volatility and the risk of rapid liquidations.
-- **Economic Sustainability:**  
-  The long-term viability of the reward and fee structures remains uncertain, potentially impacting protocol sustainability during market downturns.
 
+- **Interdependency Risk:**  
+  Reliance on multiple interconnected modules ( oracles , vault managers etc. ) means a failure in one component could affect the entire system.
+
+
+  
