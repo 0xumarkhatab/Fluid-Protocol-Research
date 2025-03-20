@@ -12,9 +12,16 @@ At the heart of Instadapp Fluid is a **unified liquidity layer** that serves mul
 - **Vault Protocol** – Users borrow against collateral (e.g., ETH) with high loan-to-value (LTV) ratios.
 - **Additional Modules** – Includes flashloans, stETH, and a DEX module for trading.
 
-![image](https://github.com/user-attachments/assets/074c2afc-77bd-4de6-9267-dae8e45c80dc)
+<div background="black">
+<p align="center">
+    <img  src="https://github.com/user-attachments/assets/074c2afc-77bd-4de6-9267-dae8e45c80dc"  height="400" />  
+</p>
+<p align="center">
+    <img  src="https://github.com/user-attachments/assets/2297d7cc-a6b4-443e-bc18-e4acb97a716b"  height="400" />  
+</p>
 
-![image](https://github.com/user-attachments/assets/2297d7cc-a6b4-443e-bc18-e4acb97a716b)
+</div>
+
 
 
 ---
