@@ -110,6 +110,8 @@ Fluid aspires to build a sustainable, interoperable liquidity infrastructure tha
 ## 10. Pros & Cons
 
 ### Pros
+- **Lower liquidation Penalty**
+  Vault protocol users lose only 5% of their collateral ( liquidate what's needed ) as compared to 50% or 100% on other lending/borrow protocols.
 - **High Capital Efficiency:**  
   The unified liquidity layer optimizes asset utilization across multiple functions.
 - **Advanced Lending & Borrowing:**  
