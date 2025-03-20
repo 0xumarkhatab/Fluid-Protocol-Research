@@ -13,7 +13,6 @@ At the heart of Instadapp Fluid is a **unified liquidity layer** that serves mul
 - **Additional Modules** – Includes flashloans, stETH, and a DEX module for trading.
 
 ![SystemOverview-1](https://github.com/user-attachments/assets/074c2afc-77bd-4de6-9267-dae8e45c80dc)
-![SystemOverview-2](https://github.com/user-attachments/assets/2297d7cc-a6b4-443e-bc18-e4acb97a716b)
 
 source : https://twitter.com/0xfluid/status/1820485781888323689
 
@@ -120,7 +119,6 @@ Fluid aspires to build a sustainable, interoperable liquidity infrastructure tha
 - **Total Value Locked (TVL):** $793.54M  
 - **Market Cap:** $199.51M  
 - **Token Price:** $5.05  
-- **Fully Diluted Valuation:** $505.91M  
 - **24h Token Volume:** $1.52M  
 - **Borrowed Amount:** $665.75M  
 - **Annualized Fees:** $91.8M  
@@ -131,15 +129,20 @@ Fluid aspires to build a sustainable, interoperable liquidity infrastructure tha
 ## 10. Pros & Cons
 
 ### Pros
+
 - **Lower liquidation Penalty**
   Vault protocol users lose only 5% of their collateral ( liquidate what's needed ) as compared to 50% or 100% on other lending/borrow protocols.
+
 - **High Capital Efficiency:**  
   The unified liquidity layer optimizes asset utilization across multiple functions.
+
 - **Advanced Lending & Borrowing:**  
   Attractive features like high LTV ratios and interest-bearing fTokens benefit both lenders and borrowers.
-  - **Minimal Liquidation Penalties:**
+
+- **Minimal Liquidation Penalties:**
     Fluid's Vault protocol offers exceptionally low liquidation penalties, starting from as low as 0.1%, compared to the typical 5-10%
     in other DeFi platforms. This significantly reduces the financial burden on borrowers during liquidation events, preserving more of their collateral.
+
 - **Seamless Trading Integration:**  
   The integrated DEX allows efficient trading and fee generation within the same ecosystem.
 
@@ -174,4 +177,4 @@ When a liquidation event occurs, the protocol must retrieve the user's position 
 
 For a more detailed mathematical explanation, refer to [Fluid's Vault Whitepaper](https://1779047404-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F1GnplQv2H5lIIg0ygng0%2Fuploads%2FXhmUuTV7RpeVnPpadddp%2FVault_Protocol_Whitepaper_.pdf?alt=media&token=1509f8b8-dd0d-4da3-b765-f9188d9fc1dd).
 
-
+... To be continued
