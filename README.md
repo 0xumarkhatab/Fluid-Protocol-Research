@@ -62,6 +62,12 @@ Fluid consolidates capital into one pool that supports multiple functionalitiesâ
 ### Integrated DEX  
 The DEX module leverages smart collateral and debt management to facilitate efficient trading, allowing users to optimize positions and earn liquidity provider feesâ€”all within the unified system.
 
+### Smart Debt
+Fluid introduces **Smart Debt**, a feature that transforms borrowed assets into productive liquidity within its Decentralized Exchange (DEX) protocol. By allocating debt as trading liquidity, users can earn trading fees, effectively offsetting borrowing costs and enhancing capital efficiency.
+**Key Benefits:**
+- **Cost Reduction:** Trading fees earned from providing debt as liquidity can offset interest expenses, reducing the overall cost of borrowing.
+- **Capital Efficiency:** This mechanism allows users to maximize the utility of their borrowed assets, turning liabilities into income-generating assets.
+
 ---
 
 ## 6. How Fluid Works
