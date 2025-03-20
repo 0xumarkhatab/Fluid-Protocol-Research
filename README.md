@@ -88,6 +88,14 @@ Depositing assets such as ETH into the Vault Protocol allows users to borrow aga
 ### Decentralized Trading & Fee Generation  
 The integrated DEX facilitates cost-effective trades by combining smart collateral and debt management. This not only optimizes trade execution but also allows users to earn fees as liquidity providers.
 
+### Governance
+- **Governance Token:** INST is the governance token for Fluid, empowering holders to shape the protocol.
+- **Key Responsibilities:**
+  - Set rate curves, fees, and token configurations within the liquidity layer.
+  - Configure protocol settings and establish allowances for interactions with the liquidity layer.
+  - Establish automated limits and classify protocols.
+  - Set up Vault configurations.
+  - Determine reward structures for both the Lending and Vault protocols.
 ---
 
 ## 7. The Vision  
@@ -150,7 +158,11 @@ Fluid aspires to build a sustainable, interoperable liquidity infrastructure tha
   Arbitrum, Base, and Polygon. This focus means that while Fluid streamlines operations within the EVM ecosystem, it doesn't fully resolve fragmentation across non-EVM
   chains. Consequently, users and assets on other blockchains remain excluded, limiting overall interoperability and network diversity.
 
-## 11. Developer Kickstarter
+## 11. Future insights
+With the release of uniswap V4 , and the features it gives like hooks and inverse-range-orders , Fluid's founder has shared a vision of going completely oracleless in his [article](https://blog.instadapp.io/oracleless-lending-protocol-on-uniswap-v4/).
+
+## 12. Developer Kickstarter
+This section will take deep dives in to the technical side of things to help developers better understand the protocol when they want to integrate with it.
 
 ### How Vault Liquidation Mechanism Works
 
