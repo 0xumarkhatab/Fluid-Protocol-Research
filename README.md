@@ -68,6 +68,13 @@ Fluid introduces **Smart Debt**, a feature that transforms borrowed assets into 
 - **Cost Reduction:** Trading fees earned from providing debt as liquidity can offset interest expenses, reducing the overall cost of borrowing.
 - **Capital Efficiency:** This mechanism allows users to maximize the utility of their borrowed assets, turning liabilities into income-generating assets.
 
+### Range liquidations
+In traditional borrow and lending protocols, liquidation is like a limit order and highly inefficient,where liquidator selects each position to liquidate. Vault protocol revolutionizes liquidations similar to how Uniswap v3 has revolutionized limit orders. Allowing all the positions in range to get liquidated without any increase in gas.
+
+### Advanced Oracles Management
+The Vault protocol uses an advanced oracle system that combines Uniswap's TWAP checkpoints with Chainlink's feeds to deliver accurate, real-time pricing data. This multi-source approach ensures asset values are reliably determined and cross-verified, minimizing the risk of price manipulation and enabling timely liquidation of bad debt. As a result, the protocol enhances security and supports higher LTV ratios, providing users with a more transparent and trustworthy borrowing experience.
+
+
 ---
 
 ## 6. How Fluid Works
@@ -143,5 +150,16 @@ Fluid aspires to build a sustainable, interoperable liquidity infrastructure tha
   Arbitrum, Base, and Polygon. This focus means that while Fluid streamlines operations within the EVM ecosystem, it doesn't fully resolve fragmentation across non-EVM
   chains. Consequently, users and assets on other blockchains remain excluded, limiting overall interoperability and network diversity.
 
-- **Interdependency Risk:**  
-  Reliance on multiple interconnected modules ( oracles , vault managers etc. ) means a failure in one component could affect the entire system.
+## 11. Developer Kickstarter
+
+### How Vault Liquidation Mechanism Works
+
+The Vault protocol’s liquidation mechanism is a significant innovation inspired by Uniswap v3, yet it delivers performance improvements up to 100x over traditional systems. When a user opens a position, the protocol assigns it to a specific tick based on the user's debt-to-collateral ratio. This tick is calculated using the formula `ratio = 1.0015^t` (with `t` representing the tick), effectively grouping positions into discrete liquidity buckets. This design consolidates user liquidity and streamlines liquidations, making the process resemble a simple swap operation. To optimize gas efficiency, Fluid employs a custom **TickMath library**—inspired by Uniswap v3—that allows for fast and accurate computation of tick values from given ratios, significantly reducing on-chain computational overhead.
+
+#### Branch and User's Tick Retrieval
+
+When a liquidation event occurs, the protocol must retrieve the user's position in real time. Fluid achieves this through a branch-based mechanism where a "branch" captures the state of liquidation-related variables. The user's pre-liquidation tick serves as the starting point, establishing the debt factor and linking to a branch. As the system iterates through the branch, it identifies the minimum tick (minima) and calculates the total liquidation impact. This approach enables efficient, precise liquidation even for users with multiple past liquidations. As market conditions change—new users entering at higher ticks when prices rise, and higher ticks being liquidated when prices fall—a branch remains active until it reaches the base branch's minima, at which point it merges with the base branch to continue the liquidation process seamlessly.
+
+For a more detailed mathematical explanation, refer to [Fluid's Vault Whitepaper](https://1779047404-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F1GnplQv2H5lIIg0ygng0%2Fuploads%2FXhmUuTV7RpeVnPpadddp%2FVault_Protocol_Whitepaper_.pdf?alt=media&token=1509f8b8-dd0d-4da3-b765-f9188d9fc1dd).
+
+
