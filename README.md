@@ -57,6 +57,8 @@ Fluid consolidates capital into one pool that supports multiple functionalitiesâ
 ### Advanced Lending & Borrowing  
 - **Deposits & fTokens:** Users deposit assets (e.g., USDC) into the liquidity layer and receive fTokens, which accrue interest over time.
 - **Collateralized Borrowing:** Users can use assets like ETH as collateral to borrow funds with LTV ratios of up to 95%, enabling high borrowing capacity with controlled liquidation risk.
+### High LTV Loans 
+Fluid provides loans upto 95% Loan-to-value ratio which is the highest of all. A 95% LTV (Loan-to-Value) loan means that a borrower can borrow up to 95% of the value of their collateral. For example, if you have $100 worth of collateral, you can borrow up to $95
 
 ### Integrated DEX  
 The DEX module leverages smart collateral and debt management to facilitate efficient trading, allowing users to optimize positions and earn liquidity provider feesâ€”all within the unified system.
@@ -161,10 +163,20 @@ Fluid aspires to build a sustainable, interoperable liquidity infrastructure tha
   Arbitrum, Base, and Polygon. This focus means that while Fluid streamlines operations within the EVM ecosystem, it doesn't fully resolve fragmentation across non-EVM
   chains. Consequently, users and assets on other blockchains remain excluded, limiting overall interoperability and network diversity.
 
-## 11. Future insights
+## 11. Security Partners
+Instadapp takes security seriously that's why it partners with good & exceptional security partners like 
+
+- Cantina
+- MixBytes
+- StateMind
+
+of which Cantina is clearly is leading the way for security audits.
+See the [Audit reports Here](https://docs.fluid.instadapp.io/audits-and-security.html)
+
+## 12. Future insights
 With the release of uniswap V4 , and the features it gives like hooks and inverse-range-orders , Fluid's founder has shared a vision of going completely oracleless in his [article](https://blog.instadapp.io/oracleless-lending-protocol-on-uniswap-v4/).
 
-## 12. Developer Kickstarter
+## 13. Developer Kickstarter
 This section will take deep dives in to the technical side of things to help developers better understand the protocol when they want to integrate with it.
 
 ### How Vault Liquidation Mechanism Works
