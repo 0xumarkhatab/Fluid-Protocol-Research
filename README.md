@@ -37,10 +37,10 @@ Fluid’s architecture revolves around a single liquidity framework that connect
               +-----------^----------+
                           |
                           v
-         +---------+    Unified    +---------+
-         | Lending |<-- Liquidity -->|  Vault  |
-         |Protocol |    Layer      |Protocol |
-         +---------+               +---------+
+        +---------+    Unified       +---------+
+        | Lending | <- Liquidity ->  |  Vault  |
+        |Protocol |    Layer         |Protocol |
+        +---------+                  +---------+
 ```
 
 *The unified liquidity layer feeds into every module, ensuring that assets are used efficiently across lending, borrowing, and trading activities.*
