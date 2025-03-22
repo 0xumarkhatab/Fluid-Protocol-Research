@@ -319,6 +319,7 @@ By this stable reference point, Fluid makes sure that trading and liquidity mana
 
 
 ## What Fluid's rival can do ?
+
 While still using the best features from Fluid like aggregated liquidations , manipulation-resistant oracles, smart debt & collateral, here's what a rival can do 
 to have an improved system than Fluid in my opinion.
 
@@ -332,7 +333,6 @@ You could design your system with two market modes:
 - **Risk Mode:** Relaxes or disables automated limits to accommodate whale-sized transactions, offering higher profit potential at increased risk.
 
 This dual approach lets you tailor risk and reward for different investor segments, similar to Aave's efficiency mode ( if i'm correct ) .
-
 
 ### 3. Sustainable Liquidation Incentive Model: Dynamic Rewards & Fee Redistribution
 A sustainable approach would combine dynamic liquidation rewards with a fee redistribution mechanism. For example:
@@ -350,4 +350,17 @@ You can use a mix of service like `wormhole` and `layerzero` to support almost a
 and then you can truly solve the liquidity fragmentation problem by leading the unified crosschain liquidity industry instead of only being EVM focused like Fluid.
 One solution can be to use `Euclid` which is already aiming to `provide liquidity to every chain` .
 
+### 5. Trade code readability for gas - ensure more consumer and audit friendly codebase
+Fluid went a long way to optimize gas costs by adding a lot of assembly . However , they have traded off with code readability leading to complexity. 
+This prevents end users and audit partners to completely understand the code and figure out any attack paths that can be used to abuse fluid in future
+making it succeptible to secure vulnerabilities and less trust for people who like to trust protocols by understanding them.
 
+You can come up with almost the same solution but better code readbility and modules that are more understandable and more audit friendly and hence getting the long-term sweet spot of security. Of course it will come at the cost of some gas fees but gas fees might only be an issue on eth mainnet and not on L2s so i beleive its worth it.
+
+### 6. Sharded unified liquidity layer
+
+- **Partitioning:** Divide the unified liquidity layer into multiple shards based on asset type, risk profile, or user segments.
+- **Parallel Processing:** Each shard independently manages deposits, withdrawals, borrowing, and liquidations, allowing parallel transaction processing.
+- **Reduced Bottlenecks:** Distributing the workload across shards minimizes congestion and lowers gas costs compared to a single, centralized liquidity layer.
+- **Unified View:** A cross-shard communication mechanism aggregates data, ensuring a consistent global view and enabling efficient overall protocol operations.
+- **Enhanced Scalability:** By handling increased volume and complexity across multiple shards, the system can scale without compromising performance.
