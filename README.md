@@ -279,7 +279,7 @@ For minor changes, only the `supplyExchangePrice` and `borrowExchangePrice` are 
 ### what is the center price in fluid dex dashboard
 
 
-## Some Observations :
+### Some Observations :
 
 1. there are no liquidations in the userModule/ of the liquidity layer. The management of liquidatable positions is handled by the underlying protocols. The liquidity layer is solely responsible for tracking debt, supply, and oracle prices.
 2. user supply data and borrow data are stored in a unique compact way https://github.com/Instadapp/fluid-contracts-public/blob/499e1ab40581fa71e71a934f2820d8385f1e1878/contracts/liquidity/common/variables.sol#L163-L177
