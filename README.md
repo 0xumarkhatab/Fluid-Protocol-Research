@@ -343,12 +343,62 @@ A sustainable approach would combine dynamic liquidation rewards with a fee redi
 - **Fee Redistribution Mechanism:**  
   Instead of burdening borrowers with high liquidation penalties, a portion of fees collected from trading or borrowing activities can be allocated to a dedicated reward pool. This pool then funds the higher incentives for liquidators, ensuring that the extra rewards come from protocol fees rather than additional charges on borrowers.
 
+```mermaid
+flowchart TD
+    A[Borrower's Position]
+    B[Check Collateral-to-Debt Ratio]
+    A --> B
+    B --> C{Is Ratio Below very risky levels ?}
+    C -- Yes --> D[Dynamic Liquidation Rewards Increase]
+    C -- No --> E[Standard Liquidation Rewards]
+    
+    D --> F[Trigger Liquidation]
+    E --> F
+    F --> G[Liquidation Process]
+    G --> H[Liquidators Receive Rewards]
+    
+    I[Trading & Borrowing Fees]
+    I --> J[Fee Redistribution Pool]
+    J --> K[Supplement Liquidator Incentives]
+    K --> H
+
+```
 This dual strategy encourages liquidators to act swiftly during high-risk periods while keeping the costs for borrowers minimal, ultimately maintaining a balanced, sustainable system.
 
 ### 4. Solving the true liquidity-fragmentation problem
 You can use a mix of service like `wormhole` and `layerzero` to support almost any chain , build a new liquidity layer that incorporate other chain's assets as well
 and then you can truly solve the liquidity fragmentation problem by leading the unified crosschain liquidity industry instead of only being EVM focused like Fluid.
-One solution can be to use `Euclid` which is already aiming to `provide liquidity to every chain` .
+
+Something like this
+```mermaid
+flowchart TD
+    subgraph Multiple_Chains[Multiple Blockchains]
+        A[Chain1 EVM]
+        B[Chain2 Non-EVM]
+        C[Chain-3 Non-EVM]
+    end
+
+    subgraph Bridging[Cross-Chain Bridging]
+        D[Wormhole/LayerZero]
+    end
+
+    subgraph Unified_Liquidity[Unified Cross-Chain Liquidity Layer]
+        E[Aggregated Liquidity]
+    end
+
+    subgraph Protocol_Services[Integrated DeFi Services]
+        G[DeFi Lending & Trading]
+    end
+
+    A --> D
+    B --> D
+    C --> D
+    D --> E
+    E --> G
+
+```
+Additionally you should check `Euclid` which is already aiming to `provide liquidity to every chain`.
+
 
 ### 5. Trade code readability for gas - ensure more consumer and audit friendly codebase
 Fluid went a long way to optimize gas costs by adding a lot of assembly . However , they have traded off with code readability leading to complexity. 
@@ -364,3 +414,25 @@ You can come up with almost the same solution but better code readbility and mod
 - **Reduced Bottlenecks:** Distributing the workload across shards minimizes congestion and lowers gas costs compared to a single, centralized liquidity layer.
 - **Unified View:** A cross-shard communication mechanism aggregates data, ensuring a consistent global view and enabling efficient overall protocol operations.
 - **Enhanced Scalability:** By handling increased volume and complexity across multiple shards, the system can scale without compromising performance.
+
+```mermaid
+flowchart TD
+    A[Central Liquidity Controller]
+    A --> B[S1]
+    A --> C[S2]
+    A --> D[S3]
+    
+    B --> E[Ops: Deposits, Withdrawals, Borrowing, Liquidations]
+    C --> F[Ops: Deposits, Withdrawals, Borrowing, Liquidations]
+    D --> G[Ops: Deposits, Withdrawals, Borrowing, Liquidations]
+    
+    E --> H[Workload Distribution]
+    F --> H
+    G --> H
+    
+    H --> I[Cross-Shard Communication]
+    I --> J[Unified Global View]
+    J --> K[Enhanced Scalability & Efficiency]
+
+```
+
