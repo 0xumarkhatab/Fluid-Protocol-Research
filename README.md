@@ -217,7 +217,11 @@ ensuring that liquidations are not unprofitable for the liquidator.
 
 #### How liquidation work ?
 
-answer : how liquidations happen :
+answer :
+
+check this huge [`liquidate()`](https://github.com/Instadapp/fluid-contracts-public/blob/499e1ab40581fa71e71a934f2820d8385f1e1878/contracts/protocols/vault/vaultT1/coreModule/main.sol#L583C5-L1248C1) method inside VaultT1 contract's core module.
+
+how liquidations happen :
 
 In Fluid, liquidations are performed by operating on aggregated data rather than modifying each user’s position individually.
 
@@ -240,10 +244,7 @@ inside admin module
 
 https://github.com/Instadapp/fluid-contracts-public/blob/a4e6897c00c45adf7adf9d3261723301c2dc0a7e/contracts/liquidity/adminModule/main.sol#L1203-L1219
 
-it seems admins manually update the prices ... but who are the admins ?
-a keeper? No , initially it's governance that will call this function and set intial params.
-
-
+initially it's governance that will call this function and set intial params.
 
 ```solidity
     function updateExchangePrices(
@@ -271,12 +272,20 @@ if changes are substantial due to `_supplyOrWithdraw` or `_borrowOrPayback` func
 the protocol updates
 
 - exchange prices
-- utilization
+- utilization ( the percentage of assets that have been borrowed out of the total assets available in the protocol's liquidity pool )
 - ratios
 
 For minor changes, only the `supplyExchangePrice` and `borrowExchangePrice` are updated 
 
 ### what is the center price in fluid dex dashboard
+
+The center price is the mid-market price around which liquidity is concentrated. It’s calculated using reliable price feeds like Uniswap TWAPs and Chainlink, and it serves as a key benchmark for the protocol. This center price is important because it anchors liquidity ranges (or ticks), enabling the system to:
+
+- Dynamically adjust liquidity allocation  
+- Reduce slippage during trades  
+- Maintain efficient pricing
+
+By this stable reference point, Fluid makes sure that trading and liquidity management are both optimized and resilient to market conditions.
 
 
 ### Some Observations :
