@@ -190,3 +190,98 @@ When a liquidation event occurs, the protocol must retrieve the user's position 
 For a more detailed mathematical explanation, refer to [Fluid's Vault Whitepaper](https://1779047404-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F1GnplQv2H5lIIg0ygng0%2Fuploads%2FXhmUuTV7RpeVnPpadddp%2FVault_Protocol_Whitepaper_.pdf?alt=media&token=1509f8b8-dd0d-4da3-b765-f9188d9fc1dd).
 
 ... To be continued
+
+## Questions & Answers
+
+
+### smart debt - allows det to be re-provided as liquidity offsetting the borrow costs . but how it's different than leveraging a solidity contract  and loaning token2 on dex1 for token 1 as collateral , then selling this token2 on dex1 and getting the token1 and then repeating the same process in a loop based function call of this smart contract
+
+answer :
+
+- **Native Integration vs. Manual Process:** Smart Debt is integrated directly into Fluid’s protocol, automatically turning debt into liquidity, while manual looping involves repeatedly executing custom smart contract functions.
+- **Gas Efficiency:** Fluid’s built-in mechanism uses optimized libraries to reduce gas costs, whereas manual loops would incur higher fees with each transaction.
+- **Automated Risk Management:** Smart Debt automatically manages risks (like slippage and market volatility) through fee offsets and protocol controls, while a manual approach is more exposed to market risks.
+- **Simplified User Experience:** By handling debt conversion internally, Smart Debt reduces complexity and potential errors compared to a manual, iterative leveraging strategy.
+
+
+### why fluid competes for uniswap when uniswap uses twaps of uniswap to decide asset prices ( or if not asset prices then what ) because for some pools , fluid has higher volume for even their counterpart uniswap pools . then why use uniswap twap in the first place . Why not it's own pool data for deciding the twap data.Also  , if fluid continues to  use uniswap , it can never beat it because the twap is from uniswap . Or if it intends to beat it as a  dex, how exactly does that go?
+
+answer : Fluid leverages Uniswap’s TWAP as a battle-tested & trusted price benchmark because of its deep liquidity and broad participation in the ecosystem. Fluid' competitive edge lies not in reinventing price discovery ( even though at times , it has the highest volume for some pairs ), but the edge  lies in building an integrated ecosystem that combines efficient lending, vault management, and trading—with innovative features like smart debt and gas-optimized liquidations—that delivers superior capital efficiency and user experience beyond mere price feeds.
+
+### bad debt since fluid provides almoat 95% of ltv , there is always a possibility of accruing bad debt. what i think is vault resolvers are not much different than high performance arbitragers . what are the mechanisms that you guys employ to eliminate the risk of bad debt ( if you eliminate it ) or you accept the scenario of bad debts and have some kind of treasury to fill debt from in the event position defaults ?
+
+answer :
+
+Vault implements a highly efficient liquidation mechanism that prevents individual position liquidations by consolidating them into groups (ticks),
+significantly reducing the risk of bad debts in volatile market conditions. Additionally, the protocol incorporates a bad debt absorption feature,
+ensuring that liquidations are not unprofitable for the liquidator.
+
+### How liquidation work ?
+
+answer : how liquidations happen :
+
+In Fluid, liquidations are performed by operating on aggregated data rather than modifying each user’s position individually.
+
+Here’s how it works:
+
+- Positions Organized into Ticks
+  Each user’s position is stored as an NFT that includes a "tick" value, which reflects the position's collateral-to-debt ratio. Positions with similar ratios are grouped into the same tick.
+
+- Batch Liquidation with Branches
+  When conditions trigger a liquidation (for example, if collateral prices drop), Fluid doesn’t go in and adjust each individual position. Instead, it works at the tick level—processing all positions within a tick as a single group. A branch mechanism is used to track and adjust the state of these ticks, effectively "moving" the entire group to a safer range without directly touching each NFT.
+
+- Efficient Rebalancing
+
+  By relying on pre-calculated tick data (using a specialized TickMath library), the protocol can update the overall debt and collateral figures for each tick. This approach rebalances the positions efficiently and minimizes gas costs.
+
+
+### how fluid determine exchange price of assets 
+
+inside admin module 
+
+https://github.com/Instadapp/fluid-contracts-public/blob/a4e6897c00c45adf7adf9d3261723301c2dc0a7e/contracts/liquidity/adminModule/main.sol#L1203-L1219
+
+it seems admins manually update the prices ... but who are the admins ?
+a keeper? No , initially it's governance that will call this function and set intial params.
+
+
+
+```solidity
+    function updateExchangePrices(
+        address[] calldata tokens_
+    ) external returns (uint256[] memory supplyExchangePrices_, uint256[] memory borrowExchangePrices_) {
+        uint256 tokensLength_ = tokens_.length;
+
+        supplyExchangePrices_ = new uint256[](tokensLength_);
+        borrowExchangePrices_ = new uint256[](tokensLength_);
+
+        for (uint256 i; i < tokensLength_; ) {
+            _checkIsContractOrNativeAddress(tokens_[i]);
+            (supplyExchangePrices_[i], borrowExchangePrices_[i]) = _updateExchangePricesAndRates(tokens_[i]);
+
+            unchecked {
+                ++i;
+            }
+        }
+    }
+
+```
+
+if changes are substantial due to `_supplyOrWithdraw` or `_borrowOrPayback` functionalities called conditionally inside `operate` method
+
+the protocol updates
+
+- exchange prices
+- utilization
+- ratios
+
+For minor changes, only the `supplyExchangePrice` and `borrowExchangePrice` are updated 
+
+### what is the center price in fluid dex dashboard
+
+
+## Some Observations :
+
+1. there are no liquidations in the userModule/ of the liquidity layer. The management of liquidatable positions is handled by the underlying protocols. The liquidity layer is solely responsible for tracking debt, supply, and oracle prices.
+2. user supply data and borrow data are stored in a unique compact way https://github.com/Instadapp/fluid-contracts-public/blob/499e1ab40581fa71e71a934f2820d8385f1e1878/contracts/liquidity/common/variables.sol#L163-L177
+
