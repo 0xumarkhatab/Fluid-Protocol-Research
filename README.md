@@ -199,14 +199,9 @@ For a more detailed mathematical explanation, refer to [Fluid's Vault Whitepaper
 ### smart debt - allows debt to be re-provided as liquidity offsetting the borrow costs . but how it's different than leveraging a solidity contract  and loaning token2 on dex1 for token 1 as collateral , then selling this token2 on dex1 and getting the token1 and then repeating the same process in a loop based function call of this smart contract
 
 answer :
-smart debt and smart collateral earns transaction fees and interest on providing liquidity to liquidity layer as opposed to just flipping tokens across dexes to earn arbitrage profits. [Good read](https://medium.com/@neyebushlyukh/a-simple-explanation-of-how-smart-collateral-and-smart-debt-work-on-fluid-dex-d6d4d3a51a60) for reference.
+Smart debt in Fluid is more than just reusing debt as collateral to offset borrowing costs—it’s an integrated mechanism that converts your debt into productive liquidity that earns both transaction fees and interest, all within a gas-efficient, automated risk management framework.
 
-
-- **Native Integration vs. Manual Process:** Smart Debt is integrated directly into Fluid’s protocol, automatically turning debt into liquidity, while manual looping involves repeatedly executing custom smart contract functions.
-- **Gas Efficiency:** Fluid’s built-in mechanism uses optimized libraries to reduce gas costs, whereas manual loops would incur higher fees with each transaction.
-- **Automated Risk Management:** Smart Debt automatically manages risks (like slippage and market volatility) through fee offsets and protocol controls, while a manual approach is more exposed to market risks.
-- **Simplified User Experience:** By handling debt conversion internally, Smart Debt reduces complexity and potential errors compared to a manual, iterative leveraging strategy.
-
+Unlike manually looping a Solidity contract to repeatedly borrow, swap, and reinvest (which primarily targets arbitrage profits), smart debt is built into Fluid’s core, leveraging optimized libraries and automated controls to reduce gas fees and exposure to market risks. This native integration not only simplifies the process for users by handling debt conversion internally but also ensures that all benefits—such as fee accrual, interest earnings, and great risk management are fully realized, delivering superior overall capital efficiency.
 
 ### why fluid competes for uniswap when uniswap uses twaps of uniswap to decide asset prices ( or if not asset prices then what ) because for some pools , fluid has higher volume for even their counterpart uniswap pools . then why use uniswap twap in the first place . Why not it's own pool data for deciding the twap data.Also  , if fluid continues to  use uniswap , it can never beat it because the twap is from uniswap . Or if it intends to beat it as a  dex, how exactly does that go?
 
@@ -220,7 +215,7 @@ Vault implements a highly efficient liquidation mechanism that prevents individu
 significantly reducing the risk of bad debts in volatile market conditions. Additionally, the protocol incorporates a bad debt absorption feature,
 ensuring that liquidations are not unprofitable for the liquidator.
 
-### How liquidation work ?
+#### How liquidation work ?
 
 answer : how liquidations happen :
 
