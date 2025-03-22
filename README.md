@@ -387,7 +387,7 @@ flowchart TD
     A[Borrower's Position]
     B[Check Collateral-to-Debt Ratio]
     A --> B
-    B --> C{How Far Below<br/>Liquidation Threshold?}
+    B --> C{How Far Below<br/>H.F?}
     C -- "Severely Below" --> D[Increase Dynamic Liquidation<br/>Rewards]
     C -- "Near Threshold" --> E[Apply Standard<br/>Liquidation Rewards]
     D --> F[Trigger Liquidation]
