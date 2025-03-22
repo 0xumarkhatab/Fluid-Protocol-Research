@@ -39,13 +39,38 @@ Fluid’s architecture revolves around a single liquidity framework that connect
 
 ---
 
-## 4. Essential Concepts  
-- **Liquidity:** Funds available for lending, borrowing, or trading.  
-- **Vault:** A secure contract that manages collateral and debt positions.  
-- **Flashloan:** A short-term loan that is borrowed and repaid within a single transaction.  
-- **fTokens:** Tokens issued when depositing assets into the liquidity layer, representing a user’s stake and accruing interest over time.  
-- **Oracle:** Provides real-time price data for accurate asset valuation.  
-- **Resolver:** Modules that help execute specific tasks (e.g., monitoring vault positions or managing liquidity actions).
+## 4. Essential Concepts
+
+- **Liquidity:**  
+  The total pool of assets available for lending, borrowing, or trading.
+
+- **Vault:**  
+  A secure smart contract that manages users’ collateral and debt positions.
+
+- **Flashloan:**  
+  A short-term loan that is borrowed and repaid within a single transaction, with no upfront collateral required.
+
+- **fTokens:**  
+  Tokens issued when users deposit assets into the liquidity layer, representing their stake and accruing interest over time.
+
+- **Oracle:**  
+  A service that provides reliable, real-time price data for assets. Fluid uses TWAPs (Time-Weighted Average Prices) from sources like Uniswap and Chainlink to ensure accurate pricing.
+
+- **TWAP (Time-Weighted Average Price):**  
+  A method of calculating the average price of an asset over a set period, which helps reduce the impact of short-term price fluctuations and manipulation.
+
+- **Ticks:**  
+  Discrete intervals or "buckets" that group user positions based on their debt-to-collateral ratios. For example, a position's "tick" is determined by a formula (such as `ratio = 1.0015^t`), which places similar risk profiles together for more efficient processing.
+
+- **Branches:**  
+  Structures used during the liquidation process to track groups of liquidated positions. A branch records the state of a range of ticks, enabling batch processing of liquidations without interacting with individual positions directly.
+
+- **Smart Debt:**  
+  A feature that automatically turns borrowed assets into productive liquidity, allowing users to earn trading fees and interest that help offset borrowing costs—integrated directly into Fluid’s protocol for higher efficiency.
+
+- **95% LTV (Loan-to-Value):**  
+  This means a borrower can borrow up to 95% of the value of their collateral. For example, if you have collateral worth $100, you can borrow up to $95. This high ratio maximizes borrowing capacity but leaves only a small margin to cover market downturns.
+
 
 ---
 
