@@ -343,7 +343,7 @@ to have an improved system than Fluid in my opinion.
 ### 1. Prudent LTV Ratios
 Using a lower LTV—say, 85% to 90%—can indeed reduce liquidation risk by providing a larger safety margin. High LTV ratios can serve as double-edge sword. While a 95% LTV maximizes borrowing capacity, it leaves little room for market fluctuations and can trigger rapid liquidations in volatile conditions. By lowering the LTV, you sacrifice some capital efficiency in exchange for increased resilience against price drops, which can be a prudent design choice if you prioritize stability and risk management.
 
-### 2. Risk Based Trading modes ( wgat parameters get changed in automated limits )
+### 2. Risk Based Trading modes
 You could design your system with two market modes:
 
 - **Stable Mode:** Enforces automated limits to protect retail and small-to-mid investors by ensuring stability and minimizing volatility.
@@ -387,9 +387,9 @@ flowchart TD
     A[Borrower's Position]
     B[Check Collateral-to-Debt Ratio]
     A --> B
-    B --> C{How Far Below<br/>H.F?}
-    C -- "Severely Below" --> D[Increase Dynamic Liquidation<br/>Rewards]
-    C -- "Near Threshold" --> E[Apply Standard<br/>Liquidation Rewards]
+    B --> C{What is user's H.F?}
+    C -- "Severely Below" --> D[Increased Dynamic Liquidation<br/>Rewards]
+    C -- "Near Threshold" --> E[Apply Standard Liquidation <br/>Rewards]
     D --> F[Trigger Liquidation]
     E --> F
     F --> G[Liquidation Process]
