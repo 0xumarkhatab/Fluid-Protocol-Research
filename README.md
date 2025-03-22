@@ -345,4 +345,9 @@ A sustainable approach would combine dynamic liquidation rewards with a fee redi
 
 This dual strategy encourages liquidators to act swiftly during high-risk periods while keeping the costs for borrowers minimal, ultimately maintaining a balanced, sustainable system.
 
+### 4. Solving the true liquidity-fragmentation problem
+You can use a mix of service like `wormhole` and `layerzero` to support almost any chain , build a new liquidity layer that incorporate other chain's assets as well
+and then you can truly solve the liquidity fragmentation problem by leading the unified crosschain liquidity industry instead of only being EVM focused like Fluid.
+One solution can be to use `Euclid` which is already aiming to `provide liquidity to every chain` .
+
 
