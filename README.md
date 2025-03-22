@@ -216,6 +216,11 @@ When a liquidation event occurs, the protocol must retrieve the user's position 
 
 For a more detailed mathematical explanation, refer to [Fluid's Vault Whitepaper](https://1779047404-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F1GnplQv2H5lIIg0ygng0%2Fuploads%2FXhmUuTV7RpeVnPpadddp%2FVault_Protocol_Whitepaper_.pdf?alt=media&token=1509f8b8-dd0d-4da3-b765-f9188d9fc1dd).
 
+#### Some Observations :
+
+1. there are no liquidations in the userModule/ of the liquidity layer. The management of liquidatable positions is handled by the underlying protocols. The liquidity layer is solely responsible for tracking debt, supply, and oracle prices.
+2. user supply data and borrow data are stored in a unique compact way https://github.com/Instadapp/fluid-contracts-public/blob/499e1ab40581fa71e71a934f2820d8385f1e1878/contracts/liquidity/common/variables.sol#L163-L177
+
 ... To be continued
 
 ## Questions & Answers
@@ -313,8 +318,31 @@ The center price is the mid-market price around which liquidity is concentrated.
 By this stable reference point, Fluid makes sure that trading and liquidity management are both optimized and resilient to market conditions.
 
 
-### Some Observations :
+## What Fluid's rival can do ?
+While still using the best features from Fluid like aggregated liquidations , manipulation-resistant oracles, smart debt & collateral, here's what a rival can do 
+to have an improved system than Fluid in my opinion.
 
-1. there are no liquidations in the userModule/ of the liquidity layer. The management of liquidatable positions is handled by the underlying protocols. The liquidity layer is solely responsible for tracking debt, supply, and oracle prices.
-2. user supply data and borrow data are stored in a unique compact way https://github.com/Instadapp/fluid-contracts-public/blob/499e1ab40581fa71e71a934f2820d8385f1e1878/contracts/liquidity/common/variables.sol#L163-L177
+### 1. Prudent LTV Ratios
+Using a lower LTV—say, 85% to 90%—can indeed reduce liquidation risk by providing a larger safety margin. High LTV ratios can serve as double-edge sword. While a 95% LTV maximizes borrowing capacity, it leaves little room for market fluctuations and can trigger rapid liquidations in volatile conditions. By lowering the LTV, you sacrifice some capital efficiency in exchange for increased resilience against price drops, which can be a prudent design choice if you prioritize stability and risk management.
+
+### 2. Risk Based Trading modes
+You could design your system with two market modes:
+
+- **Stable Mode:** Enforces automated limits to protect retail and small-to-mid investors by ensuring stability and minimizing volatility.
+- **Risk Mode:** Relaxes or disables automated limits to accommodate whale-sized transactions, offering higher profit potential at increased risk.
+
+This dual approach lets you tailor risk and reward for different investor segments, similar to Aave's efficiency mode ( if i'm correct ) .
+
+
+### 3. Sustainable Liquidation Incentive Model: Dynamic Rewards & Fee Redistribution
+A sustainable approach would combine dynamic liquidation rewards with a fee redistribution mechanism. For example:
+
+- **Dynamic Liquidation Rewards:**  
+  The system can automatically increase liquidation incentives when a borrower’s collateral-to-debt ratio falls severely below safe levels. This means that in riskier situations, liquidators are rewarded more generously to ensure rapid and efficient resolution of bad debt.
+
+- **Fee Redistribution Mechanism:**  
+  Instead of burdening borrowers with high liquidation penalties, a portion of fees collected from trading or borrowing activities can be allocated to a dedicated reward pool. This pool then funds the higher incentives for liquidators, ensuring that the extra rewards come from protocol fees rather than additional charges on borrowers.
+
+This dual strategy encourages liquidators to act swiftly during high-risk periods while keeping the costs for borrowers minimal, ultimately maintaining a balanced, sustainable system.
+
 
