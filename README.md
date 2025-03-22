@@ -332,26 +332,47 @@ You could design your system with two market modes:
 - **Stable Mode:** Enforces automated limits to protect retail and small-to-mid investors by ensuring stability and minimizing volatility.
 - **Risk Mode:** Relaxes or disables automated limits to accommodate whale-sized transactions, offering higher profit potential at increased risk.
 
+```mermaid
+flowchart TD
+    A[Trading Modes]
+    A --> B[Stable Mode]
+    A --> C[Risk Mode]
+
+    B --> D[Enforced Automated Limits]
+    D --> E[Low Volatility]
+    D --> F[Stability for Retail & Small/Mid Investors]
+
+    C --> G[Relaxed/Disabled Automated Limits]
+    G --> H[Accommodates Whale-Sized Transactions]
+    G --> I[Higher Profit Potential]
+    G --> J[Increased Risk Exposure]
+
+    %% Styling for nodes
+    style A fill:#E0E0E0,stroke:#333,stroke-width:2px, color:#000
+    style B fill:#4CAF50,stroke:#333,stroke-width:2px, color:#fff
+    style C fill:#F44336,stroke:#333,stroke-width:2px, color:#fff
+    style D fill:#81C784,stroke:#333,stroke-width:2px, color:#000
+    style E fill:#AED581,stroke:#333,stroke-width:2px, color:#000
+    style F fill:#AED581,stroke:#333,stroke-width:2px, color:#000
+    style G fill:#E57373,stroke:#333,stroke-width:2px, color:#000
+    style H fill:#EF9A9A,stroke:#333,stroke-width:2px, color:#000
+    style I fill:#EF9A9A,stroke:#333,stroke-width:2px, color:#000
+    style J fill:#EF9A9A,stroke:#333,stroke-width:2px, color:#000
+
+```
 This dual approach lets you tailor risk and reward for different investor segments, similar to Aave's efficiency mode ( if i'm correct ) .
 
 ### 3. Sustainable Liquidation Incentive Model: Dynamic Rewards & Fee Redistribution
 A sustainable approach would combine dynamic liquidation rewards with a fee redistribution mechanism. For example:
-
-- **Dynamic Liquidation Rewards:**  
-  The system can automatically increase liquidation incentives when a borrower’s collateral-to-debt ratio falls severely below safe levels. This means that in riskier situations, liquidators are rewarded more generously to ensure rapid and efficient resolution of bad debt.
-
-- **Fee Redistribution Mechanism:**  
-  Instead of burdening borrowers with high liquidation penalties, a portion of fees collected from trading or borrowing activities can be allocated to a dedicated reward pool. This pool then funds the higher incentives for liquidators, ensuring that the extra rewards come from protocol fees rather than additional charges on borrowers.
 
 ```mermaid
 flowchart TD
     A[Borrower's Position]
     B[Check Collateral-to-Debt Ratio]
     A --> B
-    B --> C{Is Ratio Below very risky levels ?}
-    C -- Yes --> D[Dynamic Liquidation Rewards Increase]
-    C -- No --> E[Standard Liquidation Rewards]
-    
+    B --> C{How Far Below<br/>Liquidation Threshold?}
+    C -- "Severely Below" --> D[Increase Dynamic Liquidation<br/>Rewards]
+    C -- "Near Threshold" --> E[Apply Standard<br/>Liquidation Rewards]
     D --> F[Trigger Liquidation]
     E --> F
     F --> G[Liquidation Process]
@@ -362,7 +383,26 @@ flowchart TD
     J --> K[Supplement Liquidator Incentives]
     K --> H
 
+    %% Styling nodes for readability on both white and dark backgrounds
+    style A fill:#E0E0E0,stroke:#333,stroke-width:2px, color:#000
+    style B fill:#E0E0E0,stroke:#333,stroke-width:2px, color:#000
+    style C fill:#FFC107,stroke:#333,stroke-width:2px, color:#000
+    style D fill:#4CAF50,stroke:#333,stroke-width:2px, color:#fff
+    style E fill:#FF9800,stroke:#333,stroke-width:2px, color:#fff
+    style F fill:#03A9F4,stroke:#333,stroke-width:2px, color:#fff
+    style G fill:#03A9F4,stroke:#333,stroke-width:2px, color:#fff
+    style H fill:#03A9F4,stroke:#333,stroke-width:2px, color:#fff
+    style I fill:#E0E0E0,stroke:#333,stroke-width:2px, color:#000
+    style J fill:#9C27B0,stroke:#333,stroke-width:2px, color:#fff
+    style K fill:#9C27B0,stroke:#333,stroke-width:2px, color:#fff
 ```
+- **Dynamic Liquidation Rewards:**  
+  The system can automatically increase liquidation incentives when a borrower’s collateral-to-debt ratio falls severely below safe levels. This means that in riskier situations, liquidators are rewarded more generously to ensure rapid and efficient resolution of bad debt.
+
+- **Fee Redistribution Mechanism:**  
+  Instead of burdening borrowers with high liquidation penalties, a portion of fees collected from trading or borrowing activities can be allocated to a dedicated reward pool. This pool then funds the higher incentives for liquidators, ensuring that the extra rewards come from protocol fees rather than additional charges on borrowers.
+
+
 This dual strategy encourages liquidators to act swiftly during high-risk periods while keeping the costs for borrowers minimal, ultimately maintaining a balanced, sustainable system.
 
 ### 4. Solving the true liquidity-fragmentation problem
@@ -370,12 +410,13 @@ You can use a mix of service like `wormhole` and `layerzero` to support almost a
 and then you can truly solve the liquidity fragmentation problem by leading the unified crosschain liquidity industry instead of only being EVM focused like Fluid.
 
 Something like this
+
 ```mermaid
 flowchart TD
     subgraph Multiple_Chains[Multiple Blockchains]
         A[Chain1 EVM]
         B[Chain2 Non-EVM]
-        C[Chain-3 Non-EVM]
+        C[Chain3 Non-EVM]
     end
 
     subgraph Bridging[Cross-Chain Bridging]
@@ -387,52 +428,57 @@ flowchart TD
     end
 
     subgraph Protocol_Services[Integrated DeFi Services]
-        G[DeFi Lending & Trading]
+        F[DeFi Lending & Trading]
     end
 
     A --> D
     B --> D
     C --> D
     D --> E
-    E --> G
+    E --> F
+
+    %% Styling for nodes
+    style A fill:#4CAF50,stroke:#333,stroke-width:2px, color:#fff
+    style B fill:#4CAF50,stroke:#333,stroke-width:2px, color:#fff
+    style C fill:#4CAF50,stroke:#333,stroke-width:2px, color:#fff
+    style D fill:#FFC107,stroke:#333,stroke-width:2px, color:#000
+    style E fill:#03A9F4,stroke:#333,stroke-width:2px, color:#fff
+    style F fill:#9C27B0,stroke:#333,stroke-width:2px, color:#fff
 
 ```
 Additionally you should check `Euclid` which is already aiming to `provide liquidity to every chain`.
 
 
 ### 5. Trade code readability for gas - ensure more consumer and audit friendly codebase
+
+```mermaid
+flowchart LR
+    subgraph Fluid_Approach[Fluid's Current Approach]
+        B1["Benefits:<br/>• High gas efficiency<br/>• Fast execution<br/>• Lower operational costs"]
+        B2["Drawbacks:<br/>• Complex, low readability<br/>• Difficult audits<br/>• Potential hidden vulnerabilities"]
+    end
+
+    subgraph Proposed_Approach[Our Proposed Approach]
+        A1["Benefits:<br/>• Clear and audit-friendly code<br/>• Improved chances of long-term security & trust<br/>• Enhanced transparency"]
+        A2["Drawbacks:<br/>• Slightly higher gas fees"]
+    end
+
+
+    %% Styling for Proposed Approach
+    style B1 fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px, color:#2E7D32
+    style B2 fill:#FFCDD2,stroke:#B71C1C,stroke-width:2px, color:#B71C1C
+    style Proposed_Approach fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px, color:#000
+
+    %% Styling for Fluid's Current Approach
+    style A1 fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px, color:#2E7D32
+    style A2 fill:#FFCDD2,stroke:#B71C1C,stroke-width:2px, color:#B71C1C
+    style Fluid_Approach fill:#FFEBEE,stroke:#B71C1C,stroke-width:2px, color:#000
+
+```
+
 Fluid went a long way to optimize gas costs by adding a lot of assembly . However , they have traded off with code readability leading to complexity. 
 This prevents end users and audit partners to completely understand the code and figure out any attack paths that can be used to abuse fluid in future
 making it succeptible to secure vulnerabilities and less trust for people who like to trust protocols by understanding them.
 
 You can come up with almost the same solution but better code readbility and modules that are more understandable and more audit friendly and hence getting the long-term sweet spot of security. Of course it will come at the cost of some gas fees but gas fees might only be an issue on eth mainnet and not on L2s so i beleive its worth it.
-
-### 6. Sharded unified liquidity layer
-
-- **Partitioning:** Divide the unified liquidity layer into multiple shards based on asset type, risk profile, or user segments.
-- **Parallel Processing:** Each shard independently manages deposits, withdrawals, borrowing, and liquidations, allowing parallel transaction processing.
-- **Reduced Bottlenecks:** Distributing the workload across shards minimizes congestion and lowers gas costs compared to a single, centralized liquidity layer.
-- **Unified View:** A cross-shard communication mechanism aggregates data, ensuring a consistent global view and enabling efficient overall protocol operations.
-- **Enhanced Scalability:** By handling increased volume and complexity across multiple shards, the system can scale without compromising performance.
-
-```mermaid
-flowchart TD
-    A[Central Liquidity Controller]
-    A --> B[S1]
-    A --> C[S2]
-    A --> D[S3]
-    
-    B --> E[Ops: Deposits, Withdrawals, Borrowing, Liquidations]
-    C --> F[Ops: Deposits, Withdrawals, Borrowing, Liquidations]
-    D --> G[Ops: Deposits, Withdrawals, Borrowing, Liquidations]
-    
-    E --> H[Workload Distribution]
-    F --> H
-    G --> H
-    
-    H --> I[Cross-Shard Communication]
-    I --> J[Unified Global View]
-    J --> K[Enhanced Scalability & Efficiency]
-
-```
 
