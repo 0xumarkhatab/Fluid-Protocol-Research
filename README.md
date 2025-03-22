@@ -183,6 +183,8 @@ This section will take deep dives in to the technical side of things to help dev
 
 The Vault protocol’s liquidation mechanism is a significant innovation inspired by Uniswap v3, yet it delivers performance improvements up to 100x over traditional systems. When a user opens a position, the protocol assigns it to a specific tick based on the user's debt-to-collateral ratio. This tick is calculated using the formula `ratio = 1.0015^t` (with `t` representing the tick), effectively grouping positions into discrete liquidity buckets. This design consolidates user liquidity and streamlines liquidations, making the process resemble a simple swap operation. To optimize gas efficiency, Fluid employs a custom **TickMath library**—inspired by Uniswap v3—that allows for fast and accurate computation of tick values from given ratios, significantly reducing on-chain computational overhead.
 
+i.e userSupplyData is stored [like this](https://github.com/Instadapp/fluid-contracts-public/blob/499e1ab40581fa71e71a934f2820d8385f1e1878/contracts/liquidity/common/variables.sol#L146-L159)
+
 #### Branch and User's Tick Retrieval
 
 When a liquidation event occurs, the protocol must retrieve the user's position in real time. Fluid achieves this through a branch-based mechanism where a "branch" captures the state of liquidation-related variables. The user's pre-liquidation tick serves as the starting point, establishing the debt factor and linking to a branch. As the system iterates through the branch, it identifies the minimum tick (minima) and calculates the total liquidation impact. This approach enables efficient, precise liquidation even for users with multiple past liquidations. As market conditions change—new users entering at higher ticks when prices rise, and higher ticks being liquidated when prices fall—a branch remains active until it reaches the base branch's minima, at which point it merges with the base branch to continue the liquidation process seamlessly.
@@ -194,9 +196,11 @@ For a more detailed mathematical explanation, refer to [Fluid's Vault Whitepaper
 ## Questions & Answers
 
 
-### smart debt - allows det to be re-provided as liquidity offsetting the borrow costs . but how it's different than leveraging a solidity contract  and loaning token2 on dex1 for token 1 as collateral , then selling this token2 on dex1 and getting the token1 and then repeating the same process in a loop based function call of this smart contract
+### smart debt - allows debt to be re-provided as liquidity offsetting the borrow costs . but how it's different than leveraging a solidity contract  and loaning token2 on dex1 for token 1 as collateral , then selling this token2 on dex1 and getting the token1 and then repeating the same process in a loop based function call of this smart contract
 
 answer :
+smart debt and smart collateral earns transaction fees and interest on providing liquidity to liquidity layer as opposed to just flipping tokens across dexes to earn arbitrage profits. [Good read](https://medium.com/@neyebushlyukh/a-simple-explanation-of-how-smart-collateral-and-smart-debt-work-on-fluid-dex-d6d4d3a51a60) for reference.
+
 
 - **Native Integration vs. Manual Process:** Smart Debt is integrated directly into Fluid’s protocol, automatically turning debt into liquidity, while manual looping involves repeatedly executing custom smart contract functions.
 - **Gas Efficiency:** Fluid’s built-in mechanism uses optimized libraries to reduce gas costs, whereas manual loops would incur higher fees with each transaction.
