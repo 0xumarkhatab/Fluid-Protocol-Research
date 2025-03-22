@@ -233,11 +233,28 @@ Smart debt in Fluid is more than just reusing debt as collateral to offset borro
 
 Unlike manually looping a Solidity contract to repeatedly borrow, swap, and reinvest (which primarily targets arbitrage profits), smart debt is built into Fluid’s core, leveraging optimized libraries and automated controls to reduce gas fees and exposure to market risks. This native integration not only simplifies the process for users by handling debt conversion internally but also ensures that all benefits—such as fee accrual, interest earnings, and great risk management are fully realized, delivering superior overall capital efficiency.
 
-### why fluid competes for uniswap when uniswap uses twaps of uniswap to decide asset prices ( or if not asset prices then what ) because for some pools , fluid has higher volume for even their counterpart uniswap pools . then why use uniswap twap in the first place . Why not it's own pool data for deciding the twap data.Also  , if fluid continues to  use uniswap , it can never beat it because the twap is from uniswap . Or if it intends to beat it as a  dex, how exactly does that go?
+- passive management
+- gas efficiency
+- transactions minimzation 
+- security
 
-answer : Fluid leverages Uniswap’s TWAP as a battle-tested & trusted price benchmark because of its deep liquidity and broad participation in the ecosystem. Fluid' competitive edge lies not in reinventing price discovery ( even though at times , it has the highest volume for some pairs ), but the edge  lies in building an integrated ecosystem that combines efficient lending, vault management, and trading—with innovative features like smart debt and gas-optimized liquidations—that delivers superior capital efficiency and user experience beyond mere price feeds.
 
-### bad debt since fluid provides almoat 95% of ltv , there is always a possibility of accruing bad debt. what i think is vault resolvers are not much different than high performance arbitragers . what are the mechanisms that you guys employ to eliminate the risk of bad debt ( if you eliminate it ) or you accept the scenario of bad debts and have some kind of treasury to fill debt from in the event position defaults ?
+### why fluid competes for uniswap when it  uses twaps of uniswap to decide asset prices ( or if not asset prices then what ) because for some pools , fluid has higher volume for even their counterpart uniswap pools . then why use uniswap twap in the first place . Why not it's own pool data for deciding the twap data.Also  , if fluid continues to  use uniswap , it can never beat it because the twap is from uniswap . Or if it intends to beat it as a  dex, how exactly does that go?
+
+answer : Fluid leverages Uniswap’s TWAP as a battle-tested & trusted price benchmark because of its deep liquidity and broad participation in the ecosystem. Fluid' competitive edge lies not in reinventing price discovery ( even though at times , it has the highest volume for some pairs ), but the edge  lies in building an integrated ecosystem that combines efficient lending, vault management, and trading — with innovative features like smart debt and gas-optimized liquidations — that delivers superior capital efficiency and user experience beyond mere price feeds.
+
+### Bad debt since fluid provides almost 95% of ltv , there is always a possibility of accruing bad debt. what i think is vault resolvers are not much different than high performance arbitragers . what are the mechanisms that you guys employ to eliminate the risk of bad debt ( if you eliminate it ) or you accept the scenario of bad debts and have some kind of treasury to fill debt from in the event position defaults ?
+
+100$ eth 
+95$ usdt 
+
+after some time
+80$  
+95$
+bad debt 15$ - ptorocol
+
+liquidate() call
+
 
 answer :
 
@@ -268,7 +285,7 @@ Here’s how it works:
   By relying on pre-calculated tick data (using a specialized TickMath library), the protocol can update the overall debt and collateral figures for each tick. This approach rebalances the positions efficiently and minimizes gas costs.
 
 
-### how fluid determine exchange price of assets 
+### how fluid determine exchange price of assets  ( more deep ) ?
 
 inside admin module 
 
@@ -307,7 +324,7 @@ the protocol updates
 
 For minor changes, only the `supplyExchangePrice` and `borrowExchangePrice` are updated 
 
-### what is the center price in fluid dex dashboard
+### what is the center price in fluid dex dashboard 
 
 The center price is the mid-market price around which liquidity is concentrated. It’s calculated using reliable price feeds like Uniswap TWAPs and Chainlink, and it serves as a key benchmark for the protocol. This center price is important because it anchors liquidity ranges (or ticks), enabling the system to:
 
@@ -326,7 +343,7 @@ to have an improved system than Fluid in my opinion.
 ### 1. Prudent LTV Ratios
 Using a lower LTV—say, 85% to 90%—can indeed reduce liquidation risk by providing a larger safety margin. High LTV ratios can serve as double-edge sword. While a 95% LTV maximizes borrowing capacity, it leaves little room for market fluctuations and can trigger rapid liquidations in volatile conditions. By lowering the LTV, you sacrifice some capital efficiency in exchange for increased resilience against price drops, which can be a prudent design choice if you prioritize stability and risk management.
 
-### 2. Risk Based Trading modes
+### 2. Risk Based Trading modes ( wgat parameters get changed in automated limits )
 You could design your system with two market modes:
 
 - **Stable Mode:** Enforces automated limits to protect retail and small-to-mid investors by ensuring stability and minimizing volatility.
