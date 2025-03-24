@@ -252,9 +252,26 @@ So while you may get fees and interest from a manual looping strategy, the integ
 
 
 
-### why fluid competes for uniswap when it  uses twaps of uniswap to decide asset prices ( or if not asset prices then what ) because for some pools , fluid has higher volume for even their counterpart uniswap pools . then why use uniswap twap in the first place . Why not it's own pool data for deciding the twap data.Also  , if fluid continues to  use uniswap , it can never beat it because the twap is from uniswap . Or if it intends to beat it as a  dex, how exactly does that go?
+### 2. Why fluid competes for uniswap when it  uses twaps of uniswap to decide asset prices ( or if not asset prices then what ) because for some pools , fluid has higher volume for even their counterpart uniswap pools . then why use uniswap twap in the first place . Why not it's own pool data for deciding the twap data.Also  , if fluid continues to  use uniswap , it can never beat it because the twap is from uniswap . Or if it intends to beat it as a  dex, how exactly does that go?
 
-answer : Fluid leverages Uniswap’s TWAP as a battle-tested & trusted price benchmark because of its deep liquidity and broad participation in the ecosystem. Fluid' competitive edge lies not in reinventing price discovery ( even though at times , it has the highest volume for some pairs ), but the edge  lies in building an integrated ecosystem that combines efficient lending, vault management, and trading — with innovative features like smart debt and gas-optimized liquidations — that delivers superior capital efficiency and user experience beyond mere price feeds.
+answer : Fluid leverages Uniswap’s TWAP as a
+- battle-tested
+- trusted price benchmark 
+
+because of its
+- deep liquidity and broad participation in the ecosystem. 
+
+Fluid' competitive edge lies not in reinventing the wheel for price discovery ( even though at times , it has the highest volume for some pairs ), but the edge lies in building an integrated ecosystem that combines
+    - efficient lending
+    - vault management
+    - trading 
+
+with innovative features like 
+
+- smart debt
+- gas-optimized liquidations
+
+that delivers superior capital efficiency and user experience beyond mere price feeds.
 
 ### Bad debt since fluid provides almost 95% of ltv , there is always a possibility of accruing bad debt. what i think is vault resolvers are not much different than high performance arbitragers . what are the mechanisms that you guys employ to eliminate the risk of bad debt ( if you eliminate it ) or you accept the scenario of bad debts and have some kind of treasury to fill debt from in the event position defaults ?
 
