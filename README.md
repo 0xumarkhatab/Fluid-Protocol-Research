@@ -273,22 +273,12 @@ with innovative features like
 
 that delivers superior capital efficiency and user experience beyond mere price feeds.
 
-### Bad debt since fluid provides almost 95% of ltv , there is always a possibility of accruing bad debt. what i think is vault resolvers are not much different than high performance arbitragers . what are the mechanisms that you guys employ to eliminate the risk of bad debt ( if you eliminate it ) or you accept the scenario of bad debts and have some kind of treasury to fill debt from in the event position defaults ?
-
-100$ eth 
-95$ usdt 
-
-after some time
-80$  
-95$
-bad debt 15$ - ptorocol
-
-liquidate() call
-
+### 3. upto 95% LTV may lead to increased chances of Bad debt. How do Fluid solves this ?
 
 answer :
 
-Vault implements a highly efficient liquidation mechanism that prevents individual position liquidations by consolidating them into groups (ticks),
+Fluid implements a highly efficient liquidation mechanism that prevents individual position liquidations by consolidating them into groups (ticks),
+similar collateral/debt ratio lies in similar groups
 significantly reducing the risk of bad debts in volatile market conditions. Additionally, the protocol incorporates a bad debt absorption feature,
 ensuring that liquidations are not unprofitable for the liquidator.
 
@@ -315,14 +305,71 @@ Here’s how it works:
   By relying on pre-calculated tick data (using a specialized TickMath library), the protocol can update the overall debt and collateral figures for each tick. This approach rebalances the positions efficiently and minimizes gas costs.
 
 
-### how fluid determine exchange price of assets  ( more deep ) ?
+### 4. How fluid determine exchange price of assets  ( more deep ) ?
 
-inside admin module 
-
+initially it's governance that will call that will set the exchange prices and other params.
 https://github.com/Instadapp/fluid-contracts-public/blob/a4e6897c00c45adf7adf9d3261723301c2dc0a7e/contracts/liquidity/adminModule/main.sol#L1203-L1219
 
-initially it's governance that will call this function and set intial params.
 
+The main price calculation logic is here :
+
+https://github.com/Instadapp/fluid-contracts-public/blob/main/contracts/libraries/liquidityCalcs.sol#L43
+
+1. The function starts by extracting the current supply and borrow exchange prices from a stored packed configuration variable.
+2. It calculates the time elapsed since the last update to determine how much interest should be accrued.  
+3. For the borrow exchange price, the function increases it proportionally based on the borrow rate and the elapsed time, effectively annualizing the interest.\
+
+```
+New Borrow Exchange Price Increase = (current borrowExchangePrice * borrowRate * secondsSinceLastUpdate_) / (SECONDS_PER_YEAR * FOUR_DECIMALS)
+```
+4. For the supply exchange price, it computes a yield factor that considers the protocol's utilization, supply ratio, and borrow ratio to determine the interest accrued for suppliers.  
+
+```
+Supply Exchange Price Increase = (current supplyExchangePrice * supply rate * secondsSinceLastUpdate_) / (SECONDS_PER_YEAR * FOUR_DECIMALS^3)
+```
+
+5. Finally, the function updates both prices so they accurately reflect the accrued interest and current market utilization, ensuring proper asset conversion within the protocol.
+
+the above library function is called here 
+
+```solidity
+    /// @dev updates the exchange prices in storage for `token_` and returns `supplyExchangePrice_` and `borrowExchangePrice_`.
+    /// Recommended to use only in a method that later calls `_updateExchangePricesAndRates()`.
+    function _updateExchangePrices(
+        address token_
+    ) internal returns (uint256 supplyExchangePrice_, uint256 borrowExchangePrice_) {
+        uint256 exchangePricesAndConfig_ = _exchangePricesAndConfig[token_];
+
+        // calculate the new exchange prices based on earned interest
+        (supplyExchangePrice_, borrowExchangePrice_) = LiquidityCalcs.calcExchangePrices(exchangePricesAndConfig_);
+
+        // ensure values written to storage do not exceed the dedicated bit space in packed uint256 slots
+        if (supplyExchangePrice_ > X64 || borrowExchangePrice_ > X64) {
+            revert FluidLiquidityError(ErrorTypes.AdminModule__ValueOverflow__EXCHANGE_PRICES);
+        }
+
+        // write updated exchangePrices_ for token to storage
+        _exchangePricesAndConfig[token_] =
+            (exchangePricesAndConfig_ &
+                // mask to update bits: 58-218 (timestamp and exchange prices)
+                0xfffffffff80000000000000000000000000000000000000003ffffffffffffff) |
+            (block.timestamp << LiquiditySlotsLink.BITS_EXCHANGE_PRICES_LAST_TIMESTAMP) |
+            (supplyExchangePrice_ << LiquiditySlotsLink.BITS_EXCHANGE_PRICES_SUPPLY_EXCHANGE_PRICE) |
+            (borrowExchangePrice_ << LiquiditySlotsLink.BITS_EXCHANGE_PRICES_BORROW_EXCHANGE_PRICE);
+
+        emit LogUpdateExchangePrices(
+            token_,
+            supplyExchangePrice_,
+            borrowExchangePrice_,
+            exchangePricesAndConfig_ & X16, // borrow rate is unchanged -> read from exchangePricesAndConfig_
+            (exchangePricesAndConfig_ >> LiquiditySlotsLink.BITS_EXCHANGE_PRICES_UTILIZATION) & X14 // utilization is unchanged -> read from exchangePricesAndConfig_
+        );
+
+        return (supplyExchangePrice_, borrowExchangePrice_);
+    }
+```
+
+which is called in following function .
 ```solidity
     function updateExchangePrices(
         address[] calldata tokens_
@@ -344,17 +391,21 @@ initially it's governance that will call this function and set intial params.
 
 ```
 
-if changes are substantial due to `_supplyOrWithdraw` or `_borrowOrPayback` functionalities called conditionally inside `operate` method
+`updateExchangePrices` is the one used by the `operate()` method whenever a user wants to perform some state changing action like suplly withdraw borrow repay etc.
+
+ `_supplyOrWithdraw` or `_borrowOrPayback` functions are called conditionally inside `operate` method based on opeartion type .
+ 
+During the execution of these, if changes are substantial due to `_supplyOrWithdraw` or `_borrowOrPayback` , 
 
 the protocol updates
 
-- exchange prices
+- exchange prices (`supplyExchangePrice` and `borrowExchangePrice` )
 - utilization ( the percentage of assets that have been borrowed out of the total assets available in the protocol's liquidity pool )
 - ratios
 
 For minor changes, only the `supplyExchangePrice` and `borrowExchangePrice` are updated 
 
-### what is the center price in fluid dex dashboard 
+### 5. what is the center price in fluid dex dashboard 
 
 The center price is the mid-market price around which liquidity is concentrated. It’s calculated using reliable price feeds like Uniswap TWAPs and Chainlink, and it serves as a key benchmark for the protocol. This center price is important because it anchors liquidity ranges (or ticks), enabling the system to:
 
