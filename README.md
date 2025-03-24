@@ -226,17 +226,30 @@ For a more detailed mathematical explanation, refer to [Fluid's Vault Whitepaper
 ## Questions & Answers
 
 
-### smart debt - allows debt to be re-provided as liquidity offsetting the borrow costs . but how it's different than leveraging a solidity contract  and loaning token2 on dex1 for token 1 as collateral , then selling this token2 on dex1 and getting the token1 and then repeating the same process in a loop based function call of this smart contract
+### 1. Smart debt - allows debt to be re-provided as liquidity offsetting the borrow costs . but how it's different than leveraging a solidity contract  and loaning token2 on dex1 for token 1 as collateral , then selling this token2 on dex1 and getting the token1 and then repeating the same process in a loop based function call of this smart contract
 
 answer :
-Smart debt in Fluid is more than just reusing debt as collateral to offset borrowing costs—it’s an integrated mechanism that converts your debt into productive liquidity that earns both transaction fees and interest, all within a gas-efficient, automated risk management framework.
 
-Unlike manually looping a Solidity contract to repeatedly borrow, swap, and reinvest (which primarily targets arbitrage profits), smart debt is built into Fluid’s core, leveraging optimized libraries and automated controls to reduce gas fees and exposure to market risks. This native integration not only simplifies the process for users by handling debt conversion internally but also ensures that all benefits—such as fee accrual, interest earnings, and great risk management are fully realized, delivering superior overall capital efficiency.
+A looping contract that periodically deposits, borrows, and withdraws on multiple platforms (like Aave and others) can indeed capture both transaction fees and interest on supplied assets across those platforms.
+However, while it might generate revenue from fees and interest, this manual approach has significant differences compared to an integrated smart debt mechanism.
 
-- passive management
-- gas efficiency
-- transactions minimzation 
-- security
+A looping contract requires
+
+- multiple sequential transactions—each incurring its own gas costs—
+- exposes you to market risks
+- execution uncertainties at every step. 
+
+In contrast, smart debt is 
+
+- built into the protocol to passively and continuously convert your debt into liquidity
+- automatically capturing both trading fees and lending interest with optimized gas usage
+- automated risk management. 
+
+So while you may get fees and interest from a manual looping strategy, the integrated smart debt approach is designed to 
+
+- maximize capital efficiency
+- reduce risk through automation.
+
 
 
 ### why fluid competes for uniswap when it  uses twaps of uniswap to decide asset prices ( or if not asset prices then what ) because for some pools , fluid has higher volume for even their counterpart uniswap pools . then why use uniswap twap in the first place . Why not it's own pool data for deciding the twap data.Also  , if fluid continues to  use uniswap , it can never beat it because the twap is from uniswap . Or if it intends to beat it as a  dex, how exactly does that go?
