@@ -160,18 +160,12 @@ Fluid aspires to build a sustainable, interoperable liquidity infrastructure tha
 - **Lower liquidation Penalty**
   Vault protocol users lose only 5% of their collateral ( liquidate what's needed ) as compared to 50% or 100% on other lending/borrow protocols.
 
-- **High Capital Efficiency:**  
-  The unified liquidity layer optimizes asset utilization across multiple functions.
-
-- **Advanced Lending & Borrowing:**  
-  Attractive features like high LTV ratios and interest-bearing fTokens benefit both lenders and borrowers.
+- **High LTVs for Borrowing:**  
+  Borrowers can borrow up to 95% of the value of their collateral. For example, if you have collateral worth $100, you can borrow up to $95. This high ratio maximizes borrowing capacity but leaves only a small margin to cover market downturns.
 
 - **Minimal Liquidation Penalties:**
     Fluid's Vault protocol offers exceptionally low liquidation penalties, starting from as low as 0.1%, compared to the typical 5-10%
     in other DeFi platforms. This significantly reduces the financial burden on borrowers during liquidation events, preserving more of their collateral.
-
-- **Seamless Trading Integration:**  
-  The integrated DEX allows efficient trading and fee generation within the same ecosystem.
 
 ### Cons
 - **Automated Limits: Impact on Large Whale Transactions**
@@ -230,12 +224,12 @@ For a more detailed mathematical explanation, refer to [Fluid's Vault Whitepaper
 
 answer :
 
-A looping contract that periodically deposits, borrows, and withdraws on multiple platforms (like Aave and others) can indeed capture both transaction fees and interest on supplied assets across those platforms.
+A looping contract that periodically deposits, borrows, and withdraws on multiple platforms (like Aave and others) can indeed indeed similar to smart-debt approach.
 However, while it might generate revenue from fees and interest, this manual approach has significant differences compared to an integrated smart debt mechanism.
 
 A looping contract requires
 
-- multiple sequential transactions—each incurring its own gas costs—
+- multiple sequential transactions — each incurring its own gas costs
 - exposes you to market risks
 - execution uncertainties at every step. 
 
@@ -250,8 +244,6 @@ So while you may get fees and interest from a manual looping strategy, the integ
 - maximize capital efficiency
 - reduce risk through automation.
 
-
-
 ### 2. Why fluid competes for uniswap when it  uses twaps of uniswap to decide asset prices ( or if not asset prices then what ) because for some pools , fluid has higher volume for even their counterpart uniswap pools . then why use uniswap twap in the first place . Why not it's own pool data for deciding the twap data.Also  , if fluid continues to  use uniswap , it can never beat it because the twap is from uniswap . Or if it intends to beat it as a  dex, how exactly does that go?
 
 answer : Fluid leverages Uniswap’s TWAP as a
@@ -262,9 +254,10 @@ because of its
 - deep liquidity and broad participation in the ecosystem. 
 
 Fluid' competitive edge lies not in reinventing the wheel for price discovery ( even though at times , it has the highest volume for some pairs ), but the edge lies in building an integrated ecosystem that combines
-    - efficient lending
-    - vault management
-    - trading 
+
+- efficient lending
+- vault management
+- trading 
 
 with innovative features like 
 
@@ -273,22 +266,17 @@ with innovative features like
 
 that delivers superior capital efficiency and user experience beyond mere price feeds.
 
-### 3. upto 95% LTV may lead to increased chances of Bad debt. How do Fluid solves this ?
+### 3. 95% LTV may lead to increased chances of Bad debt. How do Fluid solves this ?
 
 answer :
 
-Fluid implements a highly efficient liquidation mechanism that prevents individual position liquidations by consolidating them into groups (ticks),
-similar collateral/debt ratio lies in similar groups
-significantly reducing the risk of bad debts in volatile market conditions. Additionally, the protocol incorporates a bad debt absorption feature,
-ensuring that liquidations are not unprofitable for the liquidator.
+Fluid implements a highly efficient liquidation mechanism that prevents bad debt due to missing `bad positions` prone to by the `individual position liquidations` method.
+
+Fluid works by consolidating user `positions` into `groups (ticks)`, `similar collateral/debt ratio` lies in similar `groups` significantly `reducing the risk of bad debts` in volatile market conditions. Additionally, the protocol incorporates a `bad debt absorption` feature, ensuring that liquidations are not unprofitable for the liquidator.
 
 #### How liquidation work ?
 
-answer :
-
 check this huge [`liquidate()`](https://github.com/Instadapp/fluid-contracts-public/blob/499e1ab40581fa71e71a934f2820d8385f1e1878/contracts/protocols/vault/vaultT1/coreModule/main.sol#L583C5-L1248C1) method inside VaultT1 contract's core module.
-
-how liquidations happen :
 
 In Fluid, liquidations are performed by operating on aggregated data rather than modifying each user’s position individually.
 
@@ -305,7 +293,7 @@ Here’s how it works:
   By relying on pre-calculated tick data (using a specialized TickMath library), the protocol can update the overall debt and collateral figures for each tick. This approach rebalances the positions efficiently and minimizes gas costs.
 
 
-### 4. How fluid determine exchange price of assets  ( more deep ) ?
+### 4. How fluid determine exchange price of assets  ?
 
 
 ```mermaid
