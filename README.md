@@ -307,8 +307,41 @@ Here’s how it works:
 
 ### 4. How fluid determine exchange price of assets  ( more deep ) ?
 
+
+```mermaid
+flowchart TD
+    A[Governance sets initial exchange prices & parameters]
+    A --> B[User calls operate e.g., supply, withdraw, borrow, payback]
+    B --> C[Protocol checks the impact of the operation]
+    C --> D{Are changes substantial?}
+    D -- Yes --> E[Call updateExchangePrices function]
+    D -- No --> M[Update only exchange prices in memory]
+    E --> F[Retrieve current exchange prices from storage]
+    F --> G[Calculate time elapsed since last update]
+    G --> H[Update Borrow Exchange Price based on elapsed time and rate]
+    H --> I[Calculate Supply Yield Factor considering utilization, supply ratio, and borrow ratio]
+    I --> J[Update Supply Exchange Price based on the yield factor]
+    J --> K[Write updated prices, timestamp, and ratios back to storage]
+    K --> L[Return updated supply & borrow exchange prices]
+
+    %% Styling nodes
+    style A fill:#E0F7FA,stroke:#00796B,stroke-width:2px, color:#004D40
+    style B fill:#E0F7FA,stroke:#00796B,stroke-width:2px, color:#004D40
+    style C fill:#E0F7FA,stroke:#00796B,stroke-width:2px, color:#004D40
+    style D fill:#FFF9C4,stroke:#F57F17,stroke-width:2px, color:#BF360C
+    style E fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px, color:#1B5E20
+    style F fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px, color:#1B5E20
+    style G fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px, color:#1B5E20
+    style H fill:#BBDEFB,stroke:#1565C0,stroke-width:2px, color:#0D47A1
+    style I fill:#BBDEFB,stroke:#1565C0,stroke-width:2px, color:#0D47A1
+    style J fill:#BBDEFB,stroke:#1565C0,stroke-width:2px, color:#0D47A1
+    style K fill:#D1C4E9,stroke:#512DA8,stroke-width:2px, color:#311B92
+    style L fill:#D1C4E9,stroke:#512DA8,stroke-width:2px, color:#311B92
+    style M fill:#FFE0B2,stroke:#E64A19,stroke-width:2px, color:#BF360C
+
+```
 initially it's governance that will call that will set the exchange prices and other params.
-https://github.com/Instadapp/fluid-contracts-public/blob/a4e6897c00c45adf7adf9d3261723301c2dc0a7e/contracts/liquidity/adminModule/main.sol#L1203-L1219
+https://github.com/Instadapp/fluid-contracts-public/blob/main/contracts/liquidity/adminModule/main.sol#L1203
 
 
 The main price calculation logic is here :
