@@ -446,6 +446,10 @@ The center price is the mid-market price around which liquidity is concentrated.
 - Reduce slippage during trades  
 - Maintain efficient pricing
 
+![image](https://github.com/user-attachments/assets/1187a7d1-077a-4e43-8b6b-c0c40a8d49c9)
+
+Once this center price is established, the protocol defines upper and lower liquidity ranges relative to it. These ranges, often represented as discrete ticks, are set by parameters such as tick spacing or concentration factors. In practice, liquidity providers choose a range (for example, from 95% to 105% of the central price) where they want to concentrate their liquidity
+ 
 By this stable reference point, Fluid makes sure that trading and liquidity management are both optimized and resilient to market conditions.
 
 
